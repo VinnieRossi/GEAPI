@@ -1,0 +1,11 @@
+.main-page {
+  padding-left: 16px;
+  color: #212121; }
+  .main-page ul {
+    list-style-type: none; }
+  .main-page .item {
+    padding: 10px;
+    float: none;
+    background-color: #FAFAFA; }
+  .main-page .item:hover {
+    background-color: #90CAF9; }
