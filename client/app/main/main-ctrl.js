@@ -1,38 +1,27 @@
 'use strict';
 
 
-angular.module('main.MainController', [])
+angular.module('main.MainController', ['ngCookies'])
 
 
 
-  .controller('MainController', ['$scope', '$http', 'Thing', function($scope, $http, Thing) {
+  .controller('MainController', ['$scope', '$http', function($scope, $http) {
 
     //$scope.$http = $http;
     //$scope.socket = socket;
 
-    //$scope.awesomeThings = [];
-    var orgArray = [];
+    // Get JSON list of all items. Store to cache when I have more than 1 page?
+      $http.get("/api/osrs/baseList").then(function(response){
+        $scope.items = response.data;
 
+        //default option to not having poison items?
 
+        //alphabetize array
+        quickSort($scope.items, 0, $scope.items.length - 1);
 
-    //Thing.query(function(things) {
-    //  $scope.awesomeThings = things;
-    //});
-
-    // Get JSON list of all items
-    $http.get("/api/osrs/baseList").then(function(response){
-      $scope.items = response.data;
-
-      //alphabetize array
-      for (var i = 0; i < $scope.items.length; i++) {
-        orgArray.push($scope.items[i].name);
-      }
-      orgArray.sort();
-
-    }, function(err) {
-      //thing
-    });
-
+      }, function(err) {
+        //handle
+      });
 
     // Change this to use item resource
     $scope.findItem = function(itemID) {
@@ -40,39 +29,59 @@ angular.module('main.MainController', [])
         $scope.item = response.data.item;
         //go to server and request
       }, function(err) {
-        //thing
+        //handle
       });
     };
 
-/*
-     $scope.addThing = function() {
 
-       var thing = new Thing({
-         name: this.name
-       });
+    function swap(array, firstIndex, secondIndex) {
+      var temp = array[firstIndex];
+      array[firstIndex] = array[secondIndex];
+      array[secondIndex] = temp;
+    }
 
-       thing.$save(function(response) {
-         $scope.awesomeThings.push(response);
-         }, function(err) {
-           // lol fix this
-           //alert(err);
-         });
-     };
+    function partition(array, left, right) {
+      var pivot = array[Math.floor((right + left) / 2)];
 
-     $scope.deleteThing = function(thing) {
-       if (thing) {
-         thing.$remove(function(){
-           for (var i in $scope.awesomeThings) {
-             if ($scope.awesomeThings[i] === thing) {
-               $scope.awesomeThings.splice(i, 1);
-             }
-           }
-           });
-         } else {
-          // Don't remove, thing doesn't exist
-       }
-     };
-*/
+      while (left <= right) {
+
+        //Find left swap
+        while(array[left].name < pivot.name) {
+          left++;
+        }
+
+        //Find right swap
+        while(array[right].name > pivot.name) {
+          right--;
+        }
+        //Swap
+        if(left <= right) {
+          swap(array, left, right);
+          left++;
+          right--;
+        }
+      }
+
+      return left;
+    }
+
+    function quickSort(array, left, right) {
+      var index;
+
+      if (array.length > 1) {
+        index = partition(array, left, right);
+
+        if (left < index - 1) {
+          quickSort(array, left, index - 1);
+        }
+
+        if (index < right) {
+          quickSort(array, index, right);
+        }
+      }
+      return array;
+    }
+
     $scope.search = function() {
       //start searching at the letter first, then go through everything
       $scope.searchItems = [];
@@ -83,15 +92,15 @@ angular.module('main.MainController', [])
       if ($scope.userInput === "ags") $scope.searchItems.push("Armadyl Godsword");
 
       //start on letter
-      for (var i = 0; i < orgArray.length; i++) {
-        if (orgArray[i].toLowerCase().charAt(0) === $scope.userInput.charAt(0)) {
+      for (var i = 0; i < $scope.items.length; i++) {
+        if ($scope.items[i].name.toLowerCase().charAt(0) === $scope.userInput.charAt(0)) {
           break;
         }
       }
 
-      for (; i < orgArray.length; i++) {
-        if (orgArray[i].toLowerCase().indexOf($scope.userInput.toLowerCase()) > -1) {
-          $scope.searchItems.push(orgArray[i]);
+      for (; i < $scope.items.length; i++) {
+        if ($scope.items[i].name.toLowerCase().indexOf($scope.userInput.toLowerCase()) > -1) {
+          $scope.searchItems.push($scope.items[i]);
         }
 
         if ($scope.searchItems.length >= 5) {
@@ -99,23 +108,20 @@ angular.module('main.MainController', [])
         }
       }
     };
-
-    $scope.selectItem = function(name) {
-      $scope.userInput = name;
-      $scope.searchItems = [];
-
-      //implement with new method. find on original array with name
-
-      // show loading indicator
-      for(var i = 0; i < $scope.items.length; i++){
-        if ($scope.items[i].name === name) {
-          $scope.findItem($scope.items[i].id);
-
-          // then hide loading indicator
-        }
-      }
-    };
-
+    //
+    //$scope.selectItem = function(name) {
+    //  $scope.userInput = name;
+    //  $scope.searchItems = [];
+    //
+    //  // show loading indicator
+    //  for(var i = 0; i < $scope.items.length; i++){
+    //    if ($scope.items[i].name === name) {
+    //      $scope.findItem($scope.items[i].id);
+    //
+    //      // then hide loading indicator
+    //    }
+    //  }
+    //};
   }])
 
 

@@ -7,7 +7,7 @@
       <button ng-click="findItem(itemID)">get whip</button>
       -->
       <ul>
-        <li class="item" ng-repeat="item in searchItems" ng-click="selectItem(item.name)">{{item}}</li>
+        <li class="item" ng-repeat="item in searchItems" ng-click="findItem(item.id)">{{item.name}}</li>
       </ul>
 
       <p>{{item}}</p>

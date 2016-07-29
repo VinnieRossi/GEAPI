@@ -33,10 +33,7 @@ export function retrieveList(req, res) {
   });
 }
 
-//Functionality
 export function getItem(req, res) {
-
-
 
   /*
    var options = {
@@ -46,21 +43,16 @@ export function getItem(req, res) {
    };
    */
 
-  // if it's a name, look for id instead
-  if (typeof(req.params.itemID) === "String") {
-    req.params.itemID = _find(items, {name:req.params.itemID});
-    console.log(req.params.itemID);
-  }
-
   var options = {
     host: 'services.runescape.com',
     path: '/m=itemdb_oldschool/api/catalogue/detail.json?item=' + req.params.itemID,
     method: 'GET'
   };
 
-  return http.get(options, function(response){
+  return http.get(options, function(response) {
     response.on('data', function(chunk){
-      //respondWithResult(chunk, 200);
+      //respondWithResult(chunk, 200); //not working?
+      res.setHeader('Content-Type', 'text/javascript');
       res.send(chunk).status(200);
     });
   }).on("error", function(e){
