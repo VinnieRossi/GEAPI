@@ -80,23 +80,22 @@ export function getItem(req, res) {
     client.stream('statuses/filter', {delimited: 'length', track: 'javascript'}, function(stream) {
       stream.on('data', function(data) {
 
-        console.log(data);
-        //create save file
-/*
+        //console.log(data);
+        //save tweet to DB, use socketIO to emit tweet
+
+        if(data.id) {
           var tweet = {
             twid: data.id,
             active: false,
             body: data.text,
-            date: data.created_at
+            date: data.created_at,
+            author: data.user.name,
+            screenname: data.user.screen_name
           };
-
-        if (data.user) {
-          tweet.author = data.user.name;
-          tweet.screenname = data.user.screen_name;
+          console.log(tweet);
+        } else {
+          console.log("delimiter?: " + data);
         }
-
-        console.log(tweet.body);
-*/
       });
 
       stream.on('error', function(err) {
