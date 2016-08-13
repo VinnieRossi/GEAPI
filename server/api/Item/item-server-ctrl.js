@@ -5,9 +5,25 @@ import _ from 'lodash';
 import Thing from './item-model';
 import http from 'http';
 import fs from 'fs';
+import Twitter from 'twitter';
 
 
+/*
+var client = new Twitter({
+  consumer_key: 'v7S7PSceaCxFSoV54wTAxybhY',
+  consumer_secret: 'TXV1HoZPLILxl9b7x7X6eghdtIVnYsVVigOAgtVjOPXDgOfLuA',
+  access_token_key: '763724077110534144-c9RtbXw6yw5fImRhCwGnhwweFbmdC2E',
+  access_token_secret: 'cYnMEFeS6OwFh52DV8ss6XX6nGbme8OdcXGgn9kaRKbf0'
+});
+*/
 
+//Grab twitter variables from env file
+var client = new Twitter({
+  consumer_key: process.env.CONSUMER_KEY,
+  consumer_secret: process.env.CONSUMER_SECRET,
+  access_token_key: process.env.ACCESS_TOKEN_KEY,
+  access_token_secret: process.env.ACCESS_TOKEN_SECRET
+});
 
 //Utility functions
 function respondWithResult(res, statusCode) {
@@ -34,7 +50,6 @@ export function retrieveList(req, res) {
 }
 
 export function getItem(req, res) {
-
   /*
    var options = {
    host: 'services.runescape.com',
@@ -59,3 +74,43 @@ export function getItem(req, res) {
     res.send(e.mesasge).status(500);
   });
 }
+
+  export function tweet(req, res) {
+
+    client.stream('statuses/filter', {delimited: 'length', track: 'javascript'}, function(stream) {
+      stream.on('data', function(data) {
+
+        console.log(data);
+        //create save file
+/*
+          var tweet = {
+            twid: data.id,
+            active: false,
+            body: data.text,
+            date: data.created_at
+          };
+
+        if (data.user) {
+          tweet.author = data.user.name;
+          tweet.screenname = data.user.screen_name;
+        }
+
+        console.log(tweet.body);
+*/
+      });
+
+      stream.on('error', function(err) {
+        throw err;
+      })
+    });
+
+    //swap lat/long, looks like it requires 1 unit min
+    // Seattle Coords: -123,47,-122,48'
+    //locations: '-123,47,-122,48'
+
+    //client.get('search/tweets', {q: 'from:'}, function(error, tweets, response) {
+    //  res.send(tweets).status(200);
+    //});
+}
+
+//kailinnnsamm

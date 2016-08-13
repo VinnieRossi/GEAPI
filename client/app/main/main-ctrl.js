@@ -18,6 +18,7 @@ angular.module('main.MainController', ['ngCookies'])
 
         //alphabetize array
         quickSort($scope.items, 0, $scope.items.length - 1);
+        //addAliasNames();
 
       }, function(err) {
         //handle
@@ -32,7 +33,22 @@ angular.module('main.MainController', ['ngCookies'])
         //handle
       });
     };
-
+/*
+    function addAliasNames() {
+      angular.forEach($scope.items, function(item) {
+        // Move to CONSTANTS file, contains map with "item name", "alias"
+        if (item.name === "Bandos Godsword") {
+          item.alias = "bgs";
+        }
+        if (item.name === "Armadyl Godsword") {
+          item.alias = "ags";
+        }
+        if (item.name === "Saradomin Godsword") {
+          item.alias = "sgs";
+        }
+      });
+    }
+*/
 
     function swap(array, firstIndex, secondIndex) {
       var temp = array[firstIndex];
@@ -83,7 +99,6 @@ angular.module('main.MainController', ['ngCookies'])
     }
 
     $scope.search = function() {
-      //start searching at the letter first, then go through everything
       $scope.searchItems = [];
       if ($scope.userInput === "") return;
       // if user input is in shortcut (bcp, ags, bgs, acb, zgs, sgs, dds, etc
@@ -91,7 +106,7 @@ angular.module('main.MainController', ['ngCookies'])
       if ($scope.userInput === "bcp") $scope.searchItems.push("Bandos Chestplate");
       if ($scope.userInput === "ags") $scope.searchItems.push("Armadyl Godsword");
 
-      //start on letter
+      // Start searching at first letter
       for (var i = 0; i < $scope.items.length; i++) {
         if ($scope.items[i].name.toLowerCase().charAt(0) === $scope.userInput.charAt(0)) {
           break;
