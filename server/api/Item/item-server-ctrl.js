@@ -5,26 +5,6 @@ import _ from 'lodash';
 import Thing from './item-model';
 import http from 'http';
 import fs from 'fs';
-import Twitter from 'twitter';
-import Tweet from './tweet-model';
-
-
-/*
-var client = new Twitter({
-  consumer_key: 'v7S7PSceaCxFSoV54wTAxybhY',
-  consumer_secret: 'TXV1HoZPLILxl9b7x7X6eghdtIVnYsVVigOAgtVjOPXDgOfLuA',
-  access_token_key: '763724077110534144-c9RtbXw6yw5fImRhCwGnhwweFbmdC2E',
-  access_token_secret: 'cYnMEFeS6OwFh52DV8ss6XX6nGbme8OdcXGgn9kaRKbf0'
-});
-*/
-
-//Grab twitter variables from env file
-var client = new Twitter({
-  consumer_key: process.env.CONSUMER_KEY,
-  consumer_secret: process.env.CONSUMER_SECRET,
-  access_token_key: process.env.ACCESS_TOKEN_KEY,
-  access_token_secret: process.env.ACCESS_TOKEN_SECRET
-});
 
 //Utility functions
 function respondWithResult(res, statusCode) {
@@ -75,41 +55,3 @@ export function getItem(req, res) {
     res.send(e.mesasge).status(500);
   });
 }
-
-  export function tweet(req, res) {
-
-    client.stream('statuses/filter', {track: 'javascript', language: 'en'}, function(stream) {
-      console.log("Listening to twitter...\n");
-      stream.on('data', function(data) {
-
-        //console.log(data);
-          var tweet = {
-            twid: data.id,
-            author: data.user.name,
-            screenname: data.user.screen_name,
-            body: data.text,
-            date: data.created_at
-          };
-
-          console.log(tweet.author + ": " + tweet.body + "\n");
-        Tweet.create(tweet);
-        // save tweet to DB
-        //emit tweet with socket.io
-
-      });
-
-      stream.on('error', function(err) {
-        handleError(err);
-      })
-    });
-
-    //swap lat/long, looks like it requires 1 unit min
-    // Seattle Coords: -123,47,-122,48'
-    //locations: '-123,47,-122,48'
-
-    //client.get('search/tweets', {q: 'from:'}, function(error, tweets, response) {
-    //  res.send(tweets).status(200);
-    //});
-}
-
-//kailinnnsamm

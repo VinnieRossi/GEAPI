@@ -17,7 +17,7 @@ router.delete('/:id', controller.destroy);
 */
 
 router.get('/baseList', controller.retrieveList);
-router.get("/twitter", controller.tweet);
+//router.get("/twitter", controller.tweet);
 // Have this last, as it will catch anything with /api/osrs/...
 router.get("/:itemID", controller.getItem);
 
