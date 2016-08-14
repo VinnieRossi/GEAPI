@@ -3,7 +3,7 @@
 import mongoose from 'mongoose';
 
 var TweetSchema = new mongoose.Schema({
-  twid: {type: Number, unique: true, dropDubs: true},
+  twid: {type: Number, unique: true, dropDups: true},
   author: String,
   screenname: String,
   body: String,
