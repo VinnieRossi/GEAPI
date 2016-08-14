@@ -6,6 +6,7 @@ import Thing from './item-model';
 import http from 'http';
 import fs from 'fs';
 import Twitter from 'twitter';
+import Tweet from './tweet-model';
 
 
 /*
@@ -77,29 +78,28 @@ export function getItem(req, res) {
 
   export function tweet(req, res) {
 
-    client.stream('statuses/filter', {delimited: 'length', track: 'javascript'}, function(stream) {
+    client.stream('statuses/filter', {track: 'javascript', language: 'en'}, function(stream) {
+      console.log("Listening to twitter...\n");
       stream.on('data', function(data) {
 
         //console.log(data);
-        //save tweet to DB, use socketIO to emit tweet
-
-        if(data.id) {
           var tweet = {
             twid: data.id,
-            active: false,
-            body: data.text,
-            date: data.created_at,
             author: data.user.name,
-            screenname: data.user.screen_name
+            screenname: data.user.screen_name,
+            body: data.text,
+            date: data.created_at
           };
-          console.log(tweet);
-        } else {
-          console.log("delimiter?: " + data);
-        }
+
+          console.log(tweet.author + ": " + tweet.body + "\n");
+        Tweet.create(tweet);
+        // save tweet to DB
+        //emit tweet with socket.io
+
       });
 
       stream.on('error', function(err) {
-        throw err;
+        handleError(err);
       })
     });
 
