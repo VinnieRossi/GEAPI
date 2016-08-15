@@ -1,9 +1,6 @@
 'use strict';
 
-
 angular.module('main.MainController', ['ngCookies'])
-
-
 
   .controller('MainController', ['$scope', '$http', function($scope, $http) {
 

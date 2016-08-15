@@ -6,8 +6,8 @@ angular.module('meanApp',
     'ngResource',
     'ngSanitize',
     'ngRoute',
-    'btford.socket-io',
-    'main'
+    'main',
+    'twitter'
   ])
   .config(function($routeProvider, $locationProvider) {
     $routeProvider.otherwise({

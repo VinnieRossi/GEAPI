@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<body>
+<h1>Twitter page</h1>
+<button ng-click="openTwitterStream()">Start stream</button>
+<div ng-repeat="tweet in tweets">
+  <b>{{tweet.author}}:</b> {{tweet.body}}
+  <br>
+</div>
+</body>
+</html>

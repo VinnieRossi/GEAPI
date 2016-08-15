@@ -9,12 +9,34 @@ var client = new Twitter({
   access_token_secret: process.env.ACCESS_TOKEN_SECRET
 });
 
+//Utility functions
+function respondWithResult(res, statusCode) {
+  statusCode = statusCode || 200;
+  return function(entity) {
+    if (entity) {
+      res.status(statusCode).json(entity);
+    }
+  };
+}
+
+function handleError(res, statusCode) {
+  statusCode = statusCode || 500;
+  return function(err) {
+    res.status(statusCode).send(err);
+  };
+}
+
 export function stream(req, res) {
-  client.stream('statuses/filter', {track: 'javascript', language: 'en'}, function(stream) {
+  var io = req.app.get('io');
+
+  res.writeHead(200, { 'Content-Type': 'application/json' });
+  res.write(JSON.stringify({ status: 'OK' }));
+  res.end();
+
+  client.stream('statuses/filter', {track: 'harambe', language: 'en'}, function(stream) {
     console.log("Listening to twitter...\n");
     stream.on('data', function(data) {
 
-      //console.log(data);
       var tweet = new Tweet({
         twid: data.id,
         author: data.user.name,
@@ -27,32 +49,18 @@ export function stream(req, res) {
       //check if db contains content
       tweet.save(function(err) {
         if (err) {
-
+          console.log(err + " :" + err.message)
+        } else {
+          io.emit("test", tweet);
         }
       });
-
-
-      /*
-       tweet.save(function(err) {
-       if (err) {
-       if(err.code === 11000) {
-       console.log('duplicate');
-       }
-       }
-       console.log('saved');
-
-       });
-       */
-
-
-      // save tweet to DB
       //emit tweet with socket.io
-
     });
 
     stream.on('error', function(err) {
       handleError(err);
     })
+
   });
 
   //swap lat/long, looks like it requires 1 unit min

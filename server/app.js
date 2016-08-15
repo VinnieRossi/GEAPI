@@ -33,10 +33,14 @@ app.all("/api/*", function (req, res, next) {
 });
 
 var server = http.createServer(app);
+var io = require('socket.io')(server);
+/*
 var io = require('socket.io')(server, {
   serveClient: config.env !== 'production',
   path: '/socket.io-client'
 });
+*/
+app.set('io', io);
 require('./config/socketio').default(io);
 require('./config/express').default(app);
 require('./routes').default(app);

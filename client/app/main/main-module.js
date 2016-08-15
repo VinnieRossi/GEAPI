@@ -3,4 +3,4 @@
  */
 'use strict';
 
-angular.module('main', ['main.MainController', 'main.routes'])
+angular.module('main', ['main.MainController', 'main.routes']);
