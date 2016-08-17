@@ -8,6 +8,6 @@ var controller = require('./twitter-server-ctrl');
 
 var router = express.Router();
 
-router.get("/stream", controller.stream);
+router.get("/stream/:word", controller.stream);
 
 module.exports = router;

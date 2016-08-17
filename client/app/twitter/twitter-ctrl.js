@@ -11,38 +11,14 @@ angular.module('twitter.TwitterController', ['ngCookies'])
 
 
     socket.on('test', function(tweet) {
-      //alert('HAPPENING');
       console.log(tweet.body);
+      // add logic to limit # tweets to 10-15 (maybe option to preserve log)
       $scope.tweets.push(tweet);
       $scope.$apply();
     });
 
     $scope.openTwitterStream = function() {
-      $http.get("/api/twitter/stream");
+      $scope.tweets.push({body: "-------------------------------------------------------------------"});
+      $http.get("/api/twitter/stream/" + $scope.streamParam);
     }
   }]);
-/*
-
- .factory('socket', function($rootScope) {
- var socket = io.connect();
- return {
- on: function(eventName, callback) {
- var args = arguments;
- $rootScope.$apply(function() {
- callback.apply(socket, args);
- })
- },
- emit: function(eventName, data, callback) {
- socket.emit(eventName, data, function() {
- var args = arguments;
- $rootScope.$apply(function() {
- if (callback) {
- callback.apply(socket, args);
- }
- })
- })
- }
- }
- });
-
- */
