@@ -8,8 +8,6 @@ var client = new Twitter({
   access_token_key: process.env.ACCESS_TOKEN_KEY,
   access_token_secret: process.env.ACCESS_TOKEN_SECRET
 });
-var searchString = "";
-var removeString = "";
 
 //Utility functions
 function respondWithResult(res, statusCode) {
@@ -35,31 +33,13 @@ export function stream(req, res) {
   res.write(JSON.stringify({ status: 'OK' }));
   res.end();
 
-
+  if (client.currentStream) {
+    client.currentStream.destroy();
+  }
 
   client.stream('statuses/filter', {track: req.params.word, language: 'en'}, function(stream) {
-    console.log("Listening to twitter...\n");
+    client.currentStream = stream;
     stream.on('data', function(data) {
-
-      //Two issues:
-      //1. It will only rewrite the previous stream when you get a new response - problematic when the previous stream is very popular and second isn't
-      //2. Sometimes attempts at new stream auto-end? Could be due to the fact that it auto removes a second connection?
-      console.log('===========================');
-      console.log('--PARAM--' + req.params.word);
-      console.log('--LAST SEARCH--' + getLastSearchString());
-      console.log('--REMOVAL--' + getRemoveString());
-
-      if (req.params.word !== getLastSearchString()) {
-        if (req.params.word === getRemoveString()) {
-          console.log("Removing: " + req.params.word);
-          setRemoveString("");
-          stream.destroy();
-        } else {
-          console.log("New last search: " + req.params.word);
-          setRemoveString(getLastSearchString());
-          setLastSearchString(req.params.word);
-        }
-      }
 
       var tweet = new Tweet({
         twid: data.id,
@@ -71,45 +51,21 @@ export function stream(req, res) {
 
       //console.log(tweet.author + ": " + tweet.body);
 
-      //check if db contains content
+      //check if db contains content before saving
       tweet.save(function(err) {
         if (err) {
           console.log(err + " :" + err.message)
         } else {
-          io.emit("test", tweet);
+          io.emit("tweet", tweet);
         }
       });
     });
 
     stream.on('error', function(err) {
-      handleError(err);
-    });
-
-    stream.on('end', function(err) {
-      console.log("\n====================================================");
-      console.log("DESTROYING");
-      console.log("====================================================\n");
-      stream.destroy();
+      console.log("!!!error!!!");
     });
 
   });
-
-  function getRemoveString() {
-    return removeString;
-  }
-
-  function setRemoveString(word) {
-    removeString = word;
-  }
-
-
-  function getLastSearchString() {
-    return searchString;
-  }
-
-  function setLastSearchString(word) {
-    searchString = word;
-  }
 
   //swap lat/long, looks like it requires 1 unit min
   // Seattle Coords: -123,47,-122,48'
