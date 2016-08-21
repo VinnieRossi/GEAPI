@@ -17,7 +17,7 @@ function onConnect(socket) {
   });
 
   // Insert sockets below
-  require('../api/thing/thing.socket').register(socket);
+  //require('../api/thing/thing.socket').register(socket);
 
 }
 
@@ -50,11 +50,11 @@ export default function(socketio) {
     // Call onDisconnect.
     socket.on('disconnect', () => {
       onDisconnect(socket);
-      socket.log('DISCONNECTED');
+      //socket.log('DISCONNECTED');
     });
 
     // Call onConnect.
     onConnect(socket);
-    socket.log('CONNECTED');
+    //socket.log('CONNECTED');
   });
 }
