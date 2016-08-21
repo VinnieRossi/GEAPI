@@ -6,7 +6,7 @@
       <button type="submit">Track</button>
     </form>
   </div>
-  <perfect-scrollbar class="scroller" min-scrollbar-length="20" include-padding="true">
+  <perfect-scrollbar class="scroller" min-scrollbar-length="20" include-padding="true" suppressScrollX="true">
     <div ng-repeat="tweet in tweets">
       <span ng-if="tweet.author" ng-style="{'font-weight': 'bold', 'color': tweet.authorColor}">{{tweet.author}}:</span> {{tweet.body}}
     </div>
