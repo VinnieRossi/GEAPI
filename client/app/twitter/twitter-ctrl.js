@@ -7,25 +7,17 @@ angular.module('twitter.TwitterController', ['ngCookies'])
 
   .controller('TwitterController', ['$scope', '$http', function($scope, $http) {
     var socket = io();
-    $scope.tweets = [{}];
-
+    $scope.tweets = [];
 
     socket.on('tweet', function(tweet) {
-      console.log(tweet.body);
-      // add logic to limit # tweets to 10-15 (maybe option to preserve log)
+      // Set maximum tweet count? 10-15?
       $scope.tweets.push(tweet);
       $scope.$apply();
     });
 
     $scope.openTwitterStream = function() {
+      // Maybe cycle font colors depending on search instead of bar
       $scope.tweets.push({body: "-------------------------------------------------------------------"});
       $http.get("/api/twitter/stream/" + $scope.streamParam);
-
     };
-
-    function resetStream() {
-      $scope.tweets = [{}];
-      $http.get("/api/twitter/stream/" + " ");
-    }
-
   }]);
