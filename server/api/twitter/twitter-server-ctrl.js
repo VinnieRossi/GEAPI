@@ -75,12 +75,3 @@ export function stream(req, res) {
   //  res.send(tweets).status(200);
   //});
 }
-
-export function endStream(req, res) {
-  if (client.currentStream) {
-    client.currentStream.destroy();
-  }
-  res.writeHead(200, { 'Content-Type': 'application/json' });
-  res.write(JSON.stringify({ status: 'OK' }));
-  res.end();
-}

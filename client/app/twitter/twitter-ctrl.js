@@ -13,6 +13,10 @@ angular.module('twitter.TwitterController', ['ngCookies'])
       // Set maximum tweet count? 10-15?
       $scope.tweets.push(tweet);
       $scope.$apply();
+
+      // Update scroller content and height
+      $('.scroller').perfectScrollbar('update');
+      $('.scroller').scrollTop($('.scroller').children().height());
     });
 
     $scope.openTwitterStream = function() {

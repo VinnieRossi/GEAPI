@@ -6,6 +6,7 @@ angular.module('meanApp',
     'ngResource',
     'ngSanitize',
     'ngRoute',
+    'perfect_scrollbar',
     'main',
     'twitter'
   ])

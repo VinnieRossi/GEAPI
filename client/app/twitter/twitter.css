@@ -1,2 +1,15 @@
 .twitter-page {
   padding-left: 16px; }
+
+.scroller {
+  padding: 4px;
+  background-color: #efeef1;
+  white-space: pre-line;
+  height: 700px;
+  width: 340px;
+  overflow-y: hidden;
+  position: relative; }
+
+.inputArea {
+  padding: 4px;
+  padding-bottom: 12px; }

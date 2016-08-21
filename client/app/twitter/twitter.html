@@ -1,11 +1,14 @@
 <div class="twitter-page">
   <h1>Twitter page</h1>
-  <form ng-submit="openTwitterStream()">
-    <input type="text" ng-model="streamParam" placeholder="Type search text here..">
-    <button type="submit">Track</button>
-  </form>
-  <div ng-repeat="tweet in tweets">
-    <b>{{tweet.author}}:</b> {{tweet.body}}
-    <br />
+  <div class="inputArea">
+    <form ng-submit="openTwitterStream()">
+      <input type="text" ng-model="streamParam" placeholder="Type search text here..">
+      <button type="submit">Track</button>
+    </form>
   </div>
+  <perfect-scrollbar class="scroller" min-scrollbar-length="20" include-padding="true">
+    <div ng-repeat="tweet in tweets">
+      <b>{{tweet.author}}:</b> {{tweet.body}}
+    </div>
+  </perfect-scrollbar>
 </div>
