@@ -2,13 +2,13 @@
   <h1>Twitter page</h1>
   <div class="inputArea">
     <form ng-submit="openTwitterStream()">
-      <input type="text" ng-model="streamParam" placeholder="Type search text here..">
+      <input type="text" ng-model="streamParam" placeholder="Type search text here.." required>
       <button type="submit">Track</button>
     </form>
   </div>
   <perfect-scrollbar class="scroller" min-scrollbar-length="20" include-padding="true">
     <div ng-repeat="tweet in tweets">
-      <b>{{tweet.author}}<span ng-if="tweet.author">:</span></b> {{tweet.body}}
+      <span ng-if="tweet.author" ng-style="{'font-weight': 'bold', 'color': tweet.authorColor}">{{tweet.author}}:</span> {{tweet.body}}
     </div>
   </perfect-scrollbar>
 </div>
