@@ -14,16 +14,18 @@ angular.module('twitter.TwitterController', ['ngCookies'])
 
     1. Create better css for responsive design
     2. Add rotating colors to author names - DONE
-    3. Improve search input + button
+    3. Improve search input + button - DONE
     4. Create button that turns off scrollTop (in order to read tweet in fast flowing stream)
     5. Move colors to constants/env file - DONE
+    6. Create navbar links - DONE
+    7. Cancel stream on navigate away
+    8. Move osrs logic to osrs page instead of homepage
 
     */
 
     socket.on('tweet', function(tweet) {
       // Set maximum tweet count? 10-15?
       tweet.authorColor = appConfig.colors[$scope.tweets.length % appConfig.colors.length];
-
       $scope.tweets.push(tweet);
       $scope.$apply();
 
@@ -37,5 +39,4 @@ angular.module('twitter.TwitterController', ['ngCookies'])
       $scope.tweets.push({body: "___________________________________________"});
       $http.get("/api/twitter/stream/" + $scope.streamParam.replace("#", ""));
     };
-
   }]);

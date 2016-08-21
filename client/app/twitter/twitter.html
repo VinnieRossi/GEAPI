@@ -2,8 +2,13 @@
   <h1>Twitter page</h1>
   <div class="inputArea">
     <form ng-submit="openTwitterStream()">
-      <input type="text" ng-model="streamParam" placeholder="Type search text here.." required>
-      <button type="submit">Track</button>
+      <div class="formSubmission">
+        <input type="text" id="textInput" ng-model="streamParam" placeholder="Type search text here.." required>
+        <input type="image"  ng-src="{{imgsrc}}" width="30" height="30" type="submit"
+               ng-init="imgsrc='../assets/images/twitter_blue_bird.png'"
+               ng-mouseover="imgsrc='../assets/images/twitter_white_bird.png'"
+               ng-mouseout="imgsrc='../assets/images/twitter_blue_bird.png'">
+      </div>
     </form>
   </div>
   <perfect-scrollbar class="scroller" min-scrollbar-length="20" include-padding="true" suppressScrollX="true">

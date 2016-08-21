@@ -1,19 +1,30 @@
 .twitter-page {
   padding-left: 16px;
+
+  .scroller {
+    padding: 4px;
+    background-color: #efeef1;
+    white-space: pre-line;
+    height: 650px;
+    width: 340px;
+    overflow-y: hidden;
+    position: relative;
+    float: right;
+  }
+
+  .inputArea {
+    padding-bottom: 12px;
+    align-content: center;
+  }
+
+  .formSubmission {
+    display: inline-flex;
+
+    #textInput {
+      padding: 4px;
+    }
+  }
 }
 
-.scroller {
-  padding: 4px;
-  background-color: #efeef1;
-  white-space: pre-line;
-  height: 650px;
-  width: 340px;
-  overflow-y: hidden;
-  position: relative;
-  float: right;
-}
 
-.inputArea {
-  padding: 4px;
-  padding-bottom: 12px;
-}
+
