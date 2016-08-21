@@ -1,6 +1,10 @@
 .footer {
   margin-left: 16px;
-  padding: 30px 0;
-  margin-top: 70px;
+  margin-top: 64px;
   border-top: 1px solid #E0E0E0;
-  color: #212121; }
+  padding-top: 15px;
+  padding-bottom: 16px;
+  color: #212121;
+  width: 100%;
+  bottom: 0px;
+  position: absolute; }

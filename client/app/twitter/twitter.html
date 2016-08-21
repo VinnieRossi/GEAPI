@@ -8,7 +8,7 @@
   </div>
   <perfect-scrollbar class="scroller" min-scrollbar-length="20" include-padding="true">
     <div ng-repeat="tweet in tweets">
-      <b>{{tweet.author}}:</b> {{tweet.body}}
+      <b>{{tweet.author}}<span ng-if="tweet.author">:</span></b> {{tweet.body}}
     </div>
   </perfect-scrollbar>
 </div>

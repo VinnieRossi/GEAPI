@@ -20,8 +20,8 @@ angular.module('twitter.TwitterController', ['ngCookies'])
     });
 
     $scope.openTwitterStream = function() {
-      // Maybe cycle font colors depending on search instead of bar
-      $scope.tweets.push({body: "-------------------------------------------------------------------"});
+      // Maybe apply dull color to old tweets
+      $scope.tweets.push({body: "___________________________________________"});
       $http.get("/api/twitter/stream/" + $scope.streamParam);
     };
   }]);
