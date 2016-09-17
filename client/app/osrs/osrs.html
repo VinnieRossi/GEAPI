@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+  <head lang="en">
+      <meta charset="UTF-8">
+      <title></title>
+  </head>
+  <body>
+  <h1>Osrs</h1>
+  <p>This page is used to look up OSRS GE price info</p>
+    <input type="text" ng-model="userInput" ng-change="search()"/>
+
+    <ul>
+      <li class="item" ng-repeat="item in searchItems" ng-click="findItem(item.id)">{{item.name}}</li>
+    </ul>
+
+  <p>{{item}}</p>
+
+  </body>
+</html>

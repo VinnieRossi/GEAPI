@@ -8,7 +8,8 @@ angular.module('meanApp',
     'ngRoute',
     'perfect_scrollbar',
     'main',
-    'twitter'
+    'twitter',
+    'osrs'
   ])
   .config(function($routeProvider, $locationProvider) {
     $routeProvider.otherwise({
