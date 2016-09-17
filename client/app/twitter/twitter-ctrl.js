@@ -5,23 +5,9 @@
 
 angular.module('twitter.TwitterController', ['ngCookies'])
 
-  .controller('TwitterController', ['$scope', '$http', 'appConfig', function($scope, $http, appConfig) {
+  .controller('TwitterController', ['$scope', '$http', 'appConfig', '$rootScope', function($scope, $http, appConfig, $rootScope) {
     var socket = io();
     $scope.tweets = [];
-
-    /*
-          TODO LIST
-
-    1. Create better css for responsive design
-    2. Add rotating colors to author names - DONE
-    3. Improve search input + button - DONE
-    4. Create button that turns off scrollTop (in order to read tweet in fast flowing stream)
-    5. Move colors to constants/env file - DONE
-    6. Create navbar links - DONE
-    7. Cancel stream on navigate away
-    8. Move osrs logic to osrs page instead of homepage
-
-    */
 
     socket.on('tweet', function(tweet) {
       // Set maximum tweet count? 10-15?
@@ -29,7 +15,7 @@ angular.module('twitter.TwitterController', ['ngCookies'])
       $scope.tweets.push(tweet);
       $scope.$apply();
 
-      // Update scroller content and height
+      // Update scroller content and height, then scroll to the bottom
       $('.scroller').perfectScrollbar('update');
       $('.scroller').scrollTop($('.scroller').children().height());
     });
@@ -39,4 +25,9 @@ angular.module('twitter.TwitterController', ['ngCookies'])
       $scope.tweets.push({body: "___________________________________________"});
       $http.get("/api/twitter/stream/" + $scope.streamParam.replace("#", ""));
     };
+
+    $rootScope.$on('$routeChangeStart', function(event, next, current) {
+      // disable stream. find a way to only do this if leaving this scope.
+      $http.get("/api/twitter/streamCancel");
+    })
   }]);

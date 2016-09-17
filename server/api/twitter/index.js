@@ -9,5 +9,6 @@ var controller = require('./twitter-server-ctrl');
 var router = express.Router();
 
 router.get("/stream/:word", controller.stream);
+router.get("/streamCancel", controller.streamCancel);
 
 module.exports = router;

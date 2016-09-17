@@ -26,6 +26,12 @@ function handleError(res, statusCode) {
   };
 }
 
+export function streamCancel(req, res) {
+  if (client.currentStream) {
+    client.currentStream.destroy();
+  }
+}
+
 export function stream(req, res) {
   var io = req.app.get('io');
 
